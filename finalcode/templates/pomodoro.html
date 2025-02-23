@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pomofocus</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='pomodoro.css') }}" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Sidebar -->
+      <nav class="sidebar">
+          <a href="{{ url_for('index') }}"><div class="logo">WillaZilla</div></a>
+          <div class="nav-section">
+              <h2>Activity</h2>
+              <ul>
+                  <li><a href="{{ url_for('pomodoro') }}" class="nav-link active">Pomodoro</a></li>
+                  <li><a href="{{ url_for('fitness') }}" class="nav-link">Fitness</a></li>
+                  <li><a href="{{ url_for('remeals') }}" class="nav-link">ReMeals</a></li>
+                  <li><a href="{{ url_for('journal') }}" class="nav-link">Journals</a></li>
+                  <!-- <li><a href="#" class="nav-link">Profile</a></li>
+                  <li><a href="{{ url_for('aboutus') }}" class="nav-link">About Us</a></li> -->
+              </ul>
+          </div>
+      </nav>
+      <main>
+        <header>
+          <h1>Pomofocus</h1>
+          <!-- <button id="streaks-btn">★ Streaks</button> -->
+        </header>
+        <div class="content">
+          <section class="timer">
+            <div class="timer-modes">
+              <button class="mode-btn active pomodoro-btn" data-mode="pomodoro">
+                Pomodoro
+              </button>
+              <button class="mode-btn rest-btn" type="button" data-mode="rest">Rest</button>
+              <button class="mode-btn long-rest-btn" data-mode="long-rest">Long Rest</button>
+            </div>
+            <div class="timer-display">00:00:00</div>
+            <button id="start-btn">Start</button>
+          </section>
+          <section class="todo-list">
+            <h2>To Do List</h2>
+            <ul id="tasks"></ul>
+            <button id="add-task-btn">+</button>
+          </section>
+          <section class="music-player">
+            <span>♪ Play Music</span>
+            <audio id="background-music" src="{{ url_for('static', filename='lofi.mp3') }}" loop></audio>
+            <button id="play-music-btn">▶</button>
+          </section>
+          <!-- <img class="screenshot" src="Screenshot 2025-02-22 084335.png" alt="">
+          <img class="screenshot" src="The Pomodoro Technique for Procrastination (The Complete Guide).jpg" alt=""> -->
+        </div>
+      </main>
+    </div>
+    <script src="{{ url_for('static', filename='pomodoro.js') }}"></script>
+    <script>
+      function markTaskComplete(task) {
+        task.style.textDecoration = "line-through";
+        alert("Task Completed: " + task.innerText);
+      }
+
+      function notifyTimerEnd() {
+        if (Notification.permission === "granted") {
+          new Notification("Time's up! Take a break or start another session.");
+        } else if (Notification.permission !== "denied") {
+          Notification.requestPermission().then((permission) => {
+            if (permission === "granted") {
+              new Notification(
+                "Time's up! Take a break or start another session."
+              );
+            }
+          });
+        }
+      }
+    </script>
+  </body>
+</html>
